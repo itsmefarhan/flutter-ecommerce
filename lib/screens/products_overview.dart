@@ -43,6 +43,12 @@ class _ProductsOverviewState extends State<ProductsOverview> {
                 }
               });
             },
+          ),
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
           )
         ],
       ),
