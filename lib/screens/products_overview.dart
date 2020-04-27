@@ -6,16 +6,16 @@ import 'package:shopping_arena/widgets/product_item.dart';
 class ProductsOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loadedProducts = Provider.of<Products>(context).items;
+    final products = Provider.of<Products>(context);
+    final loadedProducts = products.items;
     return Scaffold(
       appBar: AppBar(title: Text('Shopping Arena')),
       body: GridView.builder(
         padding: EdgeInsets.all(10),
         itemCount: loadedProducts.length,
-        itemBuilder: (context, index) => ProductItem(
-          id: loadedProducts[index].id,
-          title: loadedProducts[index].title,
-          imageUrl: loadedProducts[index].imageUrl,
+        itemBuilder: (context, index) => ChangeNotifierProvider(
+          create: (context) => loadedProducts[index],
+          child: ProductItem(),
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
