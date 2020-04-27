@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_arena/providers/cart.dart';
+import 'package:shopping_arena/providers/order.dart';
 import 'package:shopping_arena/widgets/cart_item.dart' as Our;
 
 class Cart extends StatelessWidget {
@@ -37,7 +38,12 @@ class Cart extends StatelessWidget {
                       'Order Now',
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.items.values.toList(), cart.totalAmount);
+                      cart.clearCart();
+                      Navigator.pop(context);
+                    },
                   )
                 ],
               ),

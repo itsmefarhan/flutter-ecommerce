@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_arena/providers/products_provider.dart';
+import 'package:shopping_arena/widgets/drawer.dart';
 import 'package:shopping_arena/widgets/product_item.dart';
 
 enum FilterOptions { Favorites, All }
@@ -52,6 +53,7 @@ class _ProductsOverviewState extends State<ProductsOverview> {
           )
         ],
       ),
+      drawer: DrawerWidget(),
       body: GridView.builder(
         padding: EdgeInsets.all(10),
         itemCount: loadedProducts.length,
