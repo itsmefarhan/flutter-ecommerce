@@ -16,23 +16,23 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Products(),
+          value: ProductsProvider(),
         ),
         ChangeNotifierProvider.value(
           value: CartProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: Orders(),
+          value: OrdersProvider(),
         ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
             primarySwatch: Colors.indigo, accentColor: Colors.deepOrange),
-        home: ProductsOverview(),
+        home: ProductsOverviewScreen(),
         routes: {
-          '/productDetail': (context) => ProductDetail(),
-          '/cart': (context) => Cart(),
+          '/productDetail': (context) => ProductDetailScreen(),
+          '/cart': (context) => CartScreen(),
           '/orders': (context) => OrdersScreen()
         },
       ),

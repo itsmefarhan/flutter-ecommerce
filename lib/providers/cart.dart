@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-class CartItem {
+class Cart {
   final String id;
   final String title;
   final int quantity;
   final double price;
 
-  CartItem(
+  Cart(
       {@required this.id,
       @required this.title,
       @required this.quantity,
@@ -15,10 +15,10 @@ class CartItem {
 
 class CartProvider with ChangeNotifier {
   // map every cart item with id of product
-  Map<String, CartItem> _items = {};
+  Map<String, Cart> _items = {};
 
   //getter
-  Map<String, CartItem> get items {
+  Map<String, Cart> get items {
     return {..._items};
   }
 
@@ -42,7 +42,7 @@ class CartProvider with ChangeNotifier {
       // update cart
       _items.update(
           productId,
-          (existingItem) => CartItem(
+          (existingItem) => Cart(
               id: existingItem.id,
               title: existingItem.title,
               price: existingItem.price,
@@ -51,7 +51,7 @@ class CartProvider with ChangeNotifier {
       // add new item
       _items.putIfAbsent(
           productId,
-          () => CartItem(
+          () => Cart(
               id: DateTime.now().toString(),
               title: title,
               price: price,
@@ -62,6 +62,24 @@ class CartProvider with ChangeNotifier {
 
   void removeItem(String productId) {
     _items.remove(productId);
+    notifyListeners();
+  }
+
+  void removeSingleItem(String productId) {
+    if (!_items.containsKey(productId)) {
+      return;
+    }
+    if (_items[productId].quantity > 1) {
+      _items.update(
+          productId,
+          (existingItem) => Cart(
+              id: existingItem.id,
+              title: existingItem.title,
+              quantity: existingItem.quantity - 1,
+              price: existingItem.price));
+    } else {
+      _items.remove(productId);
+    }
     notifyListeners();
   }
 

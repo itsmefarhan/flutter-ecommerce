@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_arena/providers/cart.dart';
 import 'package:shopping_arena/providers/order.dart';
-import 'package:shopping_arena/widgets/cart_item.dart' as Our;
+import 'package:shopping_arena/widgets/cart_item.dart';
 
-class Cart extends StatelessWidget {
+class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
@@ -36,14 +36,21 @@ class Cart extends StatelessWidget {
                   FlatButton(
                     child: Text(
                       'Order Now',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                      style: TextStyle(
+                          color: cart.items.length == 0
+                              ? Colors.grey
+                              : Theme.of(context).primaryColor),
                     ),
-                    onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                          cart.items.values.toList(), cart.totalAmount);
-                      cart.clearCart();
-                      Navigator.pop(context);
-                    },
+                    onPressed: cart.items.length == 0
+                        ? () {}
+                        : () {
+                            Provider.of<OrdersProvider>(context, listen: false)
+                                .addOrder(cart.items.values.toList(),
+                                    cart.totalAmount);
+                            cart.clearCart();
+
+                            Navigator.pop(context);
+                          },
                   )
                 ],
               ),
@@ -55,7 +62,7 @@ class Cart extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: cart.itemCount,
-              itemBuilder: (context, index) => Our.CartItem(
+              itemBuilder: (context, index) => CartItem(
                   id: cart.items.values.toList()[index].id,
                   productId: cart.items.keys.toList()[index],
                   title: cart.items.values.toList()[index].title,

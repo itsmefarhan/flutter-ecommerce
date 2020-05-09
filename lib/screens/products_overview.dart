@@ -6,17 +6,17 @@ import 'package:shopping_arena/widgets/product_item.dart';
 
 enum FilterOptions { Favorites, All }
 
-class ProductsOverview extends StatefulWidget {
+class ProductsOverviewScreen extends StatefulWidget {
   @override
-  _ProductsOverviewState createState() => _ProductsOverviewState();
+  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }
 
-class _ProductsOverviewState extends State<ProductsOverview> {
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showFavorites = false;
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context);
+    final products = Provider.of<ProductsProvider>(context);
     final loadedProducts =
         _showFavorites ? products.favoritesProducts : products.items;
     return Scaffold(
