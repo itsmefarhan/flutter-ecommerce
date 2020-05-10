@@ -24,6 +24,13 @@ class DrawerWidget extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, '/orders');
             },
+          ),
+          ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('Manage Products'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/userProducts');
+            },
           )
         ],
       ),

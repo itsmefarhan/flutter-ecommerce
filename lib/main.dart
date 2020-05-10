@@ -3,10 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:shopping_arena/providers/cart.dart';
 import 'package:shopping_arena/providers/order.dart';
 import 'package:shopping_arena/providers/products_provider.dart';
+import 'package:shopping_arena/screens/add_edit_product.dart';
 import 'package:shopping_arena/screens/order.dart';
 import 'package:shopping_arena/screens/product_detail.dart';
 import 'package:shopping_arena/screens/products_overview.dart';
 import 'package:shopping_arena/screens/cart.dart';
+import 'package:shopping_arena/screens/user_products.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/productDetail': (context) => ProductDetailScreen(),
           '/cart': (context) => CartScreen(),
-          '/orders': (context) => OrdersScreen()
+          '/orders': (context) => OrdersScreen(),
+          '/userProducts': (context) => UserProductsScreen(),
+          '/addOrEditProduct': (context) => AddOrEditProductScreen()
         },
       ),
     );
