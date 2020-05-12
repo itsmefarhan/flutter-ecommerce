@@ -15,14 +15,30 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
   String _description;
   String _imageUrl;
 
-  final _imageUrlController = TextEditingController();
+  TextEditingController _imageUrlController = TextEditingController();
+
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
 
+  var productId;
+  var edProduct;
+
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
+
+    Future.delayed(Duration.zero, () {
+      productId = ModalRoute.of(context).settings.arguments as String;
+      edProduct = Provider.of<ProductsProvider>(context).findById(productId);
+      setState(() {
+        // _titleController.text = edProduct.title;
+        // _priceController.text = edProduct.price;
+        // _descriptionController.text = edProduct.description;
+        _imageUrlController.text = edProduct.imageUrl;
+      });
+    });
+
     super.initState();
   }
 
@@ -46,10 +62,15 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      Provider.of<ProductsProvider>(context, listen: false)
-          .addProduct(_title, _price, _description, _imageUrl);
-      Navigator.pop(context);
-      // print('$_title $_price $_description $_imageUrl');
+      if (productId != null) {
+        Provider.of<ProductsProvider>(context, listen: false)
+            .updateProduct(productId, _title, _price, _description, _imageUrl);
+        Navigator.pop(context);
+      } else {
+        Provider.of<ProductsProvider>(context, listen: false)
+            .addProduct(_title, _price, _description, _imageUrl);
+        Navigator.pop(context);
+      }
     } else {
       print('Error adding product');
     }
@@ -57,6 +78,9 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productId = ModalRoute.of(context).settings.arguments as String;
+    final edProduct =
+        Provider.of<ProductsProvider>(context).findById(productId);
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Product'),
@@ -71,6 +95,7 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
           child: ListView(
             children: <Widget>[
               TextFormField(
+                initialValue: edProduct != null ? edProduct.title : '',
                 validator: (val) => val.isEmpty ? 'Title is required' : null,
                 onSaved: (val) => _title = val,
                 decoration: InputDecoration(labelText: 'Title'),
@@ -80,6 +105,7 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
                     FocusScope.of(context).requestFocus(_priceFocusNode),
               ),
               TextFormField(
+                initialValue: edProduct != null ? edProduct.price.toString() : 0.0.toString(),
                 validator: (val) => val.isEmpty ? 'Price is required' : null,
                 onSaved: (val) => _price = double.parse(val),
                 decoration: InputDecoration(labelText: 'Price'),
@@ -90,6 +116,7 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
                     FocusScope.of(context).requestFocus(_descriptionFocusNode),
               ),
               TextFormField(
+                initialValue: edProduct != null ? edProduct.description : '',
                 validator: (val) =>
                     val.isEmpty ? 'Description is required' : null,
 
@@ -123,6 +150,7 @@ class _AddOrEditProductScreenState extends State<AddOrEditProductScreen> {
                   Expanded(
                     // expanded bcz textformfield inside row gets full width
                     child: TextFormField(
+                      // initialValue: edProduct != null ? edProduct.imageUrl:'',
                       // validator: (val) => val.isEmpty ? 'Title is required' : null,
 
                       onSaved: (val) => _imageUrl = val,

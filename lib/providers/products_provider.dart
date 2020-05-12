@@ -57,4 +57,18 @@ class ProductsProvider with ChangeNotifier {
     _items.add(newProduct);
     notifyListeners();
   }
+
+  updateProduct(String id, String title, double price, String description,
+      String imageUrl) {
+    final prodIndex = _items.indexWhere((product) => product.id == id);
+    final update = Product(
+      id: id,
+      title: title,
+      price: price,
+      description: description,
+      imageUrl: imageUrl,
+    );
+    _items[prodIndex] = update;
+    notifyListeners();
+  }
 }
