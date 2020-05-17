@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   provider: ^3.2.0
   intl:
+  http:
 
 dev_dependencies:
   flutter_test:
