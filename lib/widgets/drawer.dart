@@ -7,7 +7,7 @@ class DrawerWidget extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Drawer Nav'),
+            title: Text('Shopping Arena'),
             automaticallyImplyLeading: false,
           ),
           Divider(),
